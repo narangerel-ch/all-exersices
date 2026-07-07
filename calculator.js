@@ -1089,9 +1089,9 @@ const countries = [
 function countCountries(db) {
   return db.length;
 }
-console.log(countCountries(countries)); // 100
-console.log(countCountries([])); // 100
-console.log(countCountries(countries[0])); // 100
+console.log(countCountries(countries), "111"); // 100
+console.log(countCountries([]));
+console.log(countCountries(countries[0]));
 // TEST 1:  countCountries(countries)        ->  100
 // TEST 2:  countCountries([])               ->  0
 // TEST 3:  countCountries([countries[0]])   ->  1
@@ -1100,9 +1100,13 @@ console.log(countCountries(countries[0])); // 100
 // Write `allNames(db)` -> array of just the name strings.
 // your code here
 function allNames(db) {
-  return db.map(name);
+  return db.map((item) => {
+    return item.name;
+  });
 }
 console.log(allNames(countries)[0]);
+console.log(allNames(countries)[99]);
+console.log(allNames(countries).length);
 // TEST 1:  allNames(countries)[0]       ->  "Nigeria"
 // TEST 2:  allNames(countries)[99]      ->  "Solomon Islands"
 // TEST 3:  allNames(countries).length   ->  100
@@ -1110,8 +1114,14 @@ console.log(allNames(countries)[0]);
 // ----- 3. map â€” every capital -----
 // Write `allCapitals(db)` -> array of just the capital strings.
 // your code here
-
-// console.log(allCapitals(countries)[0]);
+function allCapitals(db) {
+  return db.map((item) => {
+    return item.capital;
+  });
+}
+console.log(allCapitals(countries)[0]);
+console.log(allCapitals(countries).length);
+console.log(allCapitals([countries[25]])[0]);
 // TEST 1:  allCapitals(countries)[0]      ->  "Abuja"
 // TEST 2:  allCapitals(countries).length  ->  100
 // TEST 3:  allCapitals([countries[25]])[0] -> "Beijing"
@@ -1119,8 +1129,12 @@ console.log(allNames(countries)[0]);
 // ----- 4. filter â€” by continent -----
 // Write `byContinent(db, continent)` -> array of countries on that continent.
 // your code here
-
-// console.log(byContinent(countries, "Asia").length);
+function byContinent(db, continent) {
+  return db.filter((item) => item.continent === continent);
+}
+console.log(byContinent(countries, "Asia").length);
+console.log(byContinent(countries, "Oceania").length);
+console.log(byContinent(countries, "Antarctica").length);
 // TEST 1:  byContinent(countries, "Asia").length      ->  25
 // TEST 2:  byContinent(countries, "Oceania").length   ->  5
 // TEST 3:  byContinent(countries, "Antarctica").length -> 0
@@ -1128,8 +1142,12 @@ console.log(allNames(countries)[0]);
 // ----- 5. filter â€” boolean field -----
 // Write `landlockedOnly(db)` -> array of countries where landlocked is true.
 // your code here
-
-// console.log(landlockedOnly(countries).length);
+function landlockedOnly(db) {
+  return db.filter((item) => item.landlocked);
+}
+console.log(landlockedOnly(countries).length);
+console.log(landlockedOnly(countries).every((x) => x.landlocked));
+console.log(landlockedOnly([countries[0]]).length);
 // TEST 1:  landlockedOnly(countries).length                       ->  21
 // TEST 2:  landlockedOnly(countries).every(x => x.landlocked)     ->  true
 // TEST 3:  landlockedOnly([countries[0]]).length                  ->  0
@@ -1137,8 +1155,12 @@ console.log(allNames(countries)[0]);
 // ----- 6. filter â€” numeric threshold -----
 // Write `biggerThan(db, millions)` -> countries with population > millions.
 // your code here
-
-// console.log(biggerThan(countries, 100).length);
+function biggerThan(db, millions) {
+  return db.filter((item) => item.population > millions);
+}
+console.log(biggerThan(countries, 100).length);
+console.log(biggerThan(countries, 200).length);
+console.log(biggerThan(countries, 500).length);
 // TEST 1:  biggerThan(countries, 100).length   ->  15
 // TEST 2:  biggerThan(countries, 200).length   ->  7
 // TEST 3:  biggerThan(countries, 5000).length  ->  0
@@ -1146,8 +1168,12 @@ console.log(allNames(countries)[0]);
 // ----- 7. find â€” one country by name -----
 // Write `findByName(db, name)` -> the single country object, or undefined.
 // your code here
-
-// console.log(findByName(countries, "Japan").capital);
+function findByName(db, name) {
+  return db.find((item) => item.name === name);
+}
+console.log(findByName(countries, "Japan").capital);
+console.log(findByName(countries, "Brazil").population);
+console.log(findByName(countries, "Atlantis"));
 // TEST 1:  findByName(countries, "Japan").capital      ->  "Tokyo"
 // TEST 2:  findByName(countries, "Brazil").population   ->  216.4
 // TEST 3:  findByName(countries, "Atlantis")            ->  undefined
@@ -1155,8 +1181,14 @@ console.log(allNames(countries)[0]);
 // ----- 8. reduce â€” total population -----
 // Write `totalPopulation(db)` -> sum of every population, rounded to 1 decimal.
 // your code here
-
-// console.log(totalPopulation(countries));
+function totalPopulation(db) {
+  return db.reduce((acc, item) => {
+    return acc + item.population;
+  }, 0);
+}
+console.log(totalPopulation(countries));
+console.log(totalPopulation([]));
+console.log(totalPopulation([{ population: 10 }, { population: 5 }]));
 // TEST 1:  totalPopulation(countries)              ->  7554.1
 // TEST 2:  totalPopulation([])                     ->  0
 // TEST 3:  totalPopulation([{population: 10}, {population: 5}]) -> 15
@@ -1164,8 +1196,15 @@ console.log(allNames(countries)[0]);
 // ----- 9. reduce â€” average area -----
 // Write `averageArea(db)` -> mean of .area, rounded to a whole number.
 // your code here
-
-// console.log(averageArea(countries));
+function averageArea(db) {
+  let total = db.reduce((acc, item) => {
+    return acc + item.area;
+  }, 0);
+  return total / db.length;
+}
+console.log(averageArea(countries));
+console.log(averageArea([{ area: 100 }, { area: 200 }]));
+console.log(averageArea([{ area: 50 }]));
 // TEST 1:  averageArea(countries)                       ->  1222408
 // TEST 2:  averageArea([{area: 100}, {area: 200}])      ->  150
 // TEST 3:  averageArea([{area: 50}])                    ->  50
@@ -1173,8 +1212,16 @@ console.log(allNames(countries)[0]);
 // ----- 10. sort â€” largest by area -----
 // Write `largestByArea(db)` -> NEW array sorted by area, biggest first.
 // your code here
-
-// console.log(largestByArea(countries)[0].name);
+function largestByArea(db) {
+  let newArea = [...db];
+  newArea.sort((a, b) => {
+    return b.area - a.area;
+  });
+  return newArea;
+}
+console.log(largestByArea(countries)[0].name);
+console.log(largestByArea(countries)[1].name);
+console.log(largestByArea(countries)[2].name);
 // TEST 1:  largestByArea(countries)[0].name   ->  "Russia"
 // TEST 2:  largestByArea(countries)[1].name   ->  "Canada"
 // TEST 3:  largestByArea(countries)[2].name   ->  "United States"
@@ -1182,8 +1229,18 @@ console.log(allNames(countries)[0]);
 // ----- 11. sort + map â€” most populous names -----
 // Write `mostPopulousNames(db)` -> NEW array of NAMES, highest population first.
 // your code here
-
-// console.log(mostPopulousNames(countries)[0]);
+function mostPopulousNames(db) {
+  let newArea = [...db];
+  newArea.sort((a, b) => {
+    return b.population - a.population;
+  });
+  return newArea.map((item) => {
+    return item.name;
+  });
+}
+console.log(mostPopulousNames(countries)[0]);
+console.log(mostPopulousNames(countries)[1]);
+console.log(mostPopulousNames(countries).length);
 // TEST 1:  mostPopulousNames(countries)[0]      ->  "India"
 // TEST 2:  mostPopulousNames(countries)[1]      ->  "China"
 // TEST 3:  mostPopulousNames(countries).length  ->  100
@@ -1192,8 +1249,21 @@ console.log(allNames(countries)[0]);
 // Write `biggestIn(db, continent)` -> names of that continent's countries,
 // most populous first.
 // your code here
-
-// console.log(biggestIn(countries, "Europe")[0]);
+function biggestIn(db, continent) {
+  let newArea = [...db];
+  newArea = newArea.filter((item) => {
+    return item.continent === continent;
+  });
+  newArea.sort((a, b) => {
+    return b.population - a.population;
+  });
+  return newArea.map((item) => {
+    return item.name;
+  });
+}
+console.log(biggestIn(countries, "Europe")[0]);
+console.log(biggestIn(countries, "South America")[1]);
+console.log(biggestIn(countries, "Oceania").length);
 // TEST 1:  biggestIn(countries, "Europe")[0]            ->  "Russia"
 // TEST 2:  biggestIn(countries, "South America")[1]     ->  "Colombia"
 // TEST 3:  biggestIn(countries, "Oceania").length       ->  5
@@ -1201,8 +1271,18 @@ console.log(allNames(countries)[0]);
 // ----- 13. reduce to OBJECT â€” count by continent -----
 // Write `countByContinent(db)` -> object mapping each continent to how many.
 // your code here
+function countByContinent(db) {
+  return db.reduce((acc, item) => {
+    if (acc[item.continent]) {
+      acc[item.continent]++;
+    } else {
+      acc[item.continent] = 1;
+    }
 
-// console.log(countByContinent(countries).Asia);
+    return acc;
+  }, {});
+}
+console.log(countByContinent(countries).Asia);
 // TEST 1:  countByContinent(countries).Asia      ->  25
 // TEST 2:  countByContinent(countries).Oceania   ->  5
 // TEST 3:  countByContinent(countries)["North America"] -> 10
