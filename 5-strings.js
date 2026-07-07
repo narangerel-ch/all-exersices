@@ -1367,8 +1367,16 @@ console.log(average([5]));
 // Write `reverseArr(arr)` that RETURNS a NEW array with the items reversed.
 // Do not change the original.
 // your code here
-
-// console.log(reverseArr([1, 2, 3]));
+function reverseArr(arr) {
+  let newArr = [];
+  for (let i = arr.length - 1; i >= 0; i--) {
+    (newArr.push(arr[i]), +" ");
+  }
+  return newArr;
+}
+console.log(reverseArr([1, 2, 3]));
+console.log(reverseArr(["a", "b"]));
+console.log(reverseArr([7]));
 // TEST 1:  reverseArr([1, 2, 3])        ->  [3, 2, 1]
 // TEST 2:  reverseArr(["a", "b"])       ->  ["b", "a"]
 // TEST 3:  reverseArr([7])              ->  [7]
@@ -1377,8 +1385,18 @@ console.log(average([5]));
 // Write `evensOnly(arr)` that RETURNS a NEW array with only the even numbers,
 // in the same order.
 // your code here
-
-// console.log(evensOnly([1, 2, 3, 4, 5, 6]));
+function evensOnly(arr) {
+  let newArray = [];
+  for (let i = 0; i < arr.length; i++) {
+    if (arr[i] % 2 === 0) {
+      newArray.push(arr[i]);
+    }
+  }
+  return newArray;
+}
+console.log(evensOnly([1, 2, 3, 4, 5, 6]));
+console.log(evensOnly([1, 3, 5]));
+console.log(evensOnly([2, 4]));
 // TEST 1:  evensOnly([1, 2, 3, 4, 5, 6])  ->  [2, 4, 6]
 // TEST 2:  evensOnly([1, 3, 5])           ->  []
 // TEST 3:  evensOnly([2, 4])              ->  [2, 4]
